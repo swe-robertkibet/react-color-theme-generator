@@ -1,23 +1,42 @@
 .color-palette {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 2rem;
   margin-top: 2rem;
 }
 
-.color-swatch {
-  width: 100px;
-  height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.color-scheme {
+  flex: 1;
+  min-width: 250px;
+  max-width: 400px;
+  border: 1px solid #ddd;
   border-radius: 8px;
+  padding: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.color-value {
+.color-swatch {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+}
+
+.color-label {
   background-color: rgba(255, 255, 255, 0.8);
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   font-size: 0.8rem;
+}
+
+.color-preview {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.color-preview h4 {
+  margin-bottom: 0.5rem;
 }

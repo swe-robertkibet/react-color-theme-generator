@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './ColorInput.css';
 
-const ColorInput = ({ label, value, onChange, type }) => {
+const ColorInput = ({ value, onChange }) => {
     return (
         <div className="color-input">
-            <label htmlFor={`color-${type}`}>{label}</label>
+            <label htmlFor="primary-color">Primary Color</label>
             <input
                 type="color"
-                id={`color-${type}`}
+                id="primary-color"
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
             />
@@ -16,17 +16,15 @@ const ColorInput = ({ label, value, onChange, type }) => {
                 type="text"
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
-                placeholder={`Enter ${type} color`}
+                placeholder="Enter primary color (hex)"
             />
         </div>
     );
 };
 
 ColorInput.propTypes = {
-    label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
-    type: PropTypes.oneOf(['primary', 'background']).isRequired,
 };
 
 export default ColorInput;
