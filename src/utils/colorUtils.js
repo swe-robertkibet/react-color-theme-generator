@@ -13,6 +13,10 @@ const rgbToHex = (r, g, b) => {
     return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 };
 
+const adjustBrightness = (color, factor) => {
+    return Math.round(Math.min(Math.max(0, color * factor), 255));
+};
+
 const generateColorSchemes = (primaryColor) => {
     const rgb = hexToRgb(primaryColor);
     if (!rgb) return [];
@@ -33,18 +37,39 @@ const generateColorSchemes = (primaryColor) => {
             heading: primaryColor,
             text: brightness > 128 ? '#FFFFFF' : primaryColor
         },
-        // Monochromatic scheme
-        {
-            background: rgbToHex(Math.max(0, r - 40), Math.max(0, g - 40), Math.max(0, b - 40)),
-            heading: primaryColor,
-            text: rgbToHex(Math.min(255, r + 40), Math.min(255, g + 40), Math.min(255, b + 40))
-        },
-        // Complementary scheme
-        {
-            background: rgbToHex(255 - r, 255 - g, 255 - b),
-            heading: primaryColor,
-            text: rgbToHex((r + 128) % 256, (g + 128) % 256, (b + 128) % 256)
-        }
+        // Refined Monochromatic scheme
+        (() => {
+            const lighterShade = rgbToHex(
+                adjustBrightness(r, 1.3),
+                adjustBrightness(g, 1.3),
+                adjustBrightness(b, 1.3)
+            );
+            const darkerShade = rgbToHex(
+                adjustBrightness(r, 0.7),
+                adjustBrightness(g, 0.7),
+                adjustBrightness(b, 0.7)
+            );
+            return {
+                background: lighterShade,
+                heading: primaryColor,
+                text: darkerShade
+            };
+        })(),
+        // Refined Complementary scheme
+        (() => {
+            const complementary = rgbToHex(255 - r, 255 - g, 255 - b);
+            const complementaryRgb = hexToRgb(complementary);
+            const softComplement = rgbToHex(
+                Math.round((complementaryRgb.r + 255) / 2),
+                Math.round((complementaryRgb.g + 255) / 2),
+                Math.round((complementaryRgb.b + 255) / 2)
+            );
+            return {
+                background: softComplement,
+                heading: primaryColor,
+                text: brightness > 128 ? '#333333' : '#FFFFFF'
+            };
+        })()
     ];
 
     return schemes;

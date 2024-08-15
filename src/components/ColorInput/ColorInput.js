@@ -6,12 +6,12 @@ const ColorInput = ({ value, onChange }) => {
     return (
         <div className="color-input">
             <label htmlFor="primary-color">Primary Color</label>
-            <input
+            {/* <input
                 type="color"
                 id="primary-color"
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
-            />
+            /> */}
             <input
                 type="text"
                 value={value}
