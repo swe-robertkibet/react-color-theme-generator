@@ -1,78 +1,98 @@
-const hexToRgb = (hex) => {
-    const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-    hex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b);
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-    } : null;
+import ColorContrastChecker from 'color-contrast-checker';
+
+const ccc = new ColorContrastChecker();
+
+// Helper function to validate hex color
+const isValidHex = (hex) => {
+    return /^#([A-Fa-f0-9]{3}){1,2}$/.test(hex);
 };
 
+const checkContrast = (color1, color2, fontSize = 14) => {
+    if (!isValidHex(color1) || !isValidHex(color2)) {
+        return { isAA: false, isAAA: false };
+    }
+    const isAA = ccc.isLevelAA(color1, color2, fontSize);
+    const isAAA = ccc.isLevelAAA(color1, color2, fontSize);
+
+    return { isAA, isAAA };
+};
+
+// Helper function to convert hex to RGB
+const hexToRgb = (hex) => {
+    if (!isValidHex(hex)) return null;
+
+    let r, g, b;
+    if (hex.length === 4) {
+        r = parseInt(hex[1] + hex[1], 16);
+        g = parseInt(hex[2] + hex[2], 16);
+        b = parseInt(hex[3] + hex[3], 16);
+    } else {
+        r = parseInt(hex.slice(1, 3), 16);
+        g = parseInt(hex.slice(3, 5), 16);
+        b = parseInt(hex.slice(5, 7), 16);
+    }
+    return { r, g, b };
+};
+
+// Helper function to convert RGB to hex
 const rgbToHex = (r, g, b) => {
     return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 };
 
-const adjustBrightness = (color, factor) => {
-    return Math.round(Math.min(Math.max(0, color * factor), 255));
+// Function to get complementary color
+const getComplementaryColor = (hex) => {
+    const rgb = hexToRgb(hex);
+    if (!rgb) return '#000000';
+
+    const complement = {
+        r: 255 - rgb.r,
+        g: 255 - rgb.g,
+        b: 255 - rgb.b
+    };
+
+    return rgbToHex(complement.r, complement.g, complement.b);
 };
 
 const generateColorSchemes = (primaryColor) => {
-    const rgb = hexToRgb(primaryColor);
-    if (!rgb) return [];
-
-    const { r, g, b } = rgb;
-    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+    if (!isValidHex(primaryColor)) {
+        return [];
+    }
 
     const schemes = [
         // Light scheme
         {
             background: '#FFFFFF',
             heading: primaryColor,
-            text: brightness > 128 ? '#333333' : primaryColor
+            text: '#333333'
         },
         // Dark scheme
         {
             background: '#333333',
             heading: primaryColor,
-            text: brightness > 128 ? '#FFFFFF' : primaryColor
+            text: '#FFFFFF'
         },
-        // Refined Monochromatic scheme
-        (() => {
-            const lighterShade = rgbToHex(
-                adjustBrightness(r, 1.3),
-                adjustBrightness(g, 1.3),
-                adjustBrightness(b, 1.3)
-            );
-            const darkerShade = rgbToHex(
-                adjustBrightness(r, 0.7),
-                adjustBrightness(g, 0.7),
-                adjustBrightness(b, 0.7)
-            );
-            return {
-                background: lighterShade,
-                heading: primaryColor,
-                text: darkerShade
-            };
-        })(),
-        // Refined Complementary scheme
-        (() => {
-            const complementary = rgbToHex(255 - r, 255 - g, 255 - b);
-            const complementaryRgb = hexToRgb(complementary);
-            const softComplement = rgbToHex(
-                Math.round((complementaryRgb.r + 255) / 2),
-                Math.round((complementaryRgb.g + 255) / 2),
-                Math.round((complementaryRgb.b + 255) / 2)
-            );
-            return {
-                background: softComplement,
-                heading: primaryColor,
-                text: brightness > 128 ? '#333333' : '#FFFFFF'
-            };
-        })()
+        // Monochromatic scheme
+        {
+            background: primaryColor,
+            heading: '#FFFFFF',
+            text: '#333333'
+        },
+        // Complementary scheme
+        {
+            background: '#FFFFFF',
+            heading: primaryColor,
+            text: getComplementaryColor(primaryColor)
+        }
     ];
 
-    return schemes;
+    return schemes.map(scheme => ({
+        ...scheme,
+        contrast: {
+            backgroundHeading: checkContrast(scheme.background, scheme.heading),
+            backgroundText: checkContrast(scheme.background, scheme.text),
+            headingText: checkContrast(scheme.heading, scheme.text)
+        }
+    }));
 };
 
-export { generateColorSchemes };
+export { generateColorSchemes, checkContrast, isValidHex };
