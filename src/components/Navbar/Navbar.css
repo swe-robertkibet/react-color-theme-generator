@@ -13,8 +13,10 @@
 }
 
 .navbar-title {
+  font-family: "Gochi Hand", system-ui;
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1rem;
+  z-index: 1001;
 }
 
 .navbar-links {
@@ -33,6 +35,10 @@
   text-decoration: none;
 }
 
+body.no-scroll {
+  overflow: hidden; /* Prevents scrolling */
+}
+
 @media (max-width: 768px) {
   .navbar-links {
     display: none;
@@ -41,14 +47,25 @@
   .navbar-links.active {
     display: flex;
     flex-direction: column;
-    position: absolute;
-    top: 60px;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
     left: 0;
     right: 0;
+    bottom: 0;
     background-color: #333;
+    z-index: 1000;
   }
 
   .navbar-links.active li {
     margin: 1rem;
+    list-style: none; /* Remove default list styling */
+  }
+
+  .navbar-links.active a {
+    color: white; /* Ensure links are visible on the dark background */
+    text-decoration: none; /* Remove underline from links */
+    font-size: 1.5rem; /* Increase link size for better visibility */
   }
 }

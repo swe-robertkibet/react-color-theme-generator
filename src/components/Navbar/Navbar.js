@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
 import './Navbar.css';
@@ -9,6 +9,15 @@ const Navbar = ({ title }) => {
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
+
+    // Prevent scrolling when the menu is open
+    useEffect(() => {
+        if (isOpen) {
+            document.body.classList.add('no-scroll');
+        } else {
+            document.body.classList.remove('no-scroll');
+        }
+    }, [isOpen]);
 
     return (
         <nav className="navbar">
