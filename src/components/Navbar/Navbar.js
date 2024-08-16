@@ -25,9 +25,9 @@ const Navbar = ({ title }) => {
                 <h1 className="navbar-title">{title}</h1>
                 <div className="navbar-menu">
                     <ul className={`navbar-links ${isOpen ? 'active' : ''}`}>
-                        <li><a href="#home">Home</a></li>
+                        <li><a href="https://github.com/swe-robertkibet">GitHub</a></li>
                         <li><a href="#about">About</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="https://robertkibet.com/">Contact</a></li>
                     </ul>
                 </div>
                 <HamburgerMenu isOpen={isOpen} toggleMenu={toggleMenu} />
