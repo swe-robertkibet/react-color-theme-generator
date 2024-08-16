@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCopy, faCheck } from '@fortawesome/free-solid-svg-icons';
 import './ColorPalette.css';
+import { getContrastColor } from '../../utils/colorUtils';
 
 const ColorPalette = ({ schemes }) => {
-    const copyToClipboard = (text) => {
+    const [copiedStates, setCopiedStates] = useState({});
+
+    const copyToClipboard = (text, schemeIndex, colorType) => {
         navigator.clipboard.writeText(text).then(() => {
-            alert('Color code copied to clipboard!');
+            setCopiedStates({ ...copiedStates, [`${schemeIndex}-${colorType}`]: true });
+            setTimeout(() => {
+                setCopiedStates({ ...copiedStates, [`${schemeIndex}-${colorType}`]: false });
+            }, 2000);
         }, (err) => {
             console.error('Could not copy text: ', err);
         });
@@ -42,15 +50,39 @@ const ColorPalette = ({ schemes }) => {
 
                     <div className="color-swatch" style={{ backgroundColor: scheme.background }}>
                         <span className="color-label">Background: {scheme.background}</span>
-                        <button className="copy-button" onClick={() => copyToClipboard(scheme.background)}>Copy</button>
+                        <button
+                            className="copy-button"
+                            onClick={() => copyToClipboard(scheme.background, index, 'background')}
+                            style={{ color: getContrastColor(scheme.background) }}
+                        >
+                            <FontAwesomeIcon
+                                icon={copiedStates[`${index}-background`] ? faCheck : faCopy}
+                            />
+                        </button>
                     </div>
                     <div className="color-swatch" style={{ backgroundColor: scheme.heading }}>
                         <span className="color-label">Heading: {scheme.heading}</span>
-                        <button className="copy-button" onClick={() => copyToClipboard(scheme.heading)}>Copy</button>
+                        <button
+                            className="copy-button"
+                            onClick={() => copyToClipboard(scheme.heading, index, 'heading')}
+                            style={{ color: getContrastColor(scheme.heading) }}
+                        >
+                            <FontAwesomeIcon
+                                icon={copiedStates[`${index}-heading`] ? faCheck : faCopy}
+                            />
+                        </button>
                     </div>
                     <div className="color-swatch" style={{ backgroundColor: scheme.text }}>
                         <span className="color-label">Text: {scheme.text}</span>
-                        <button className="copy-button" onClick={() => copyToClipboard(scheme.text)}>Copy</button>
+                        <button
+                            className="copy-button"
+                            onClick={() => copyToClipboard(scheme.text, index, 'text')}
+                            style={{ color: getContrastColor(scheme.text) }}
+                        >
+                            <FontAwesomeIcon
+                                icon={copiedStates[`${index}-text`] ? faCheck : faCopy}
+                            />
+                        </button>
                     </div>
 
                     <div className="color-preview" style={{ backgroundColor: scheme.background }}>
@@ -71,7 +103,6 @@ const ColorPalette = ({ schemes }) => {
         </div>
     );
 };
-
 
 ColorPalette.propTypes = {
     schemes: PropTypes.arrayOf(
