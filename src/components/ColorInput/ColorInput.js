@@ -37,6 +37,11 @@ const ColorInput = ({ value, onChange }) => {
                     placeholder="Enter primary color (hex)"
                     className={isValid ? '' : 'invalid'}
                 />
+                {isValid && (
+                    <div className="color-preview-circle" style={{ backgroundColor: inputValue }}>
+                        <span className="color-preview-text">{inputValue}</span>
+                    </div>
+                )}
                 {!isValid && <p className="error-message">Please enter a valid hex color (e.g., #FF0000 or #F00)</p>}
             </div>
 
