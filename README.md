@@ -1,5 +1,7 @@
 # Color Theme Generator
 
+![Project Image](assets/img1.png)
+
 ## Table of Contents
 
 - [Introduction](#introduction)
