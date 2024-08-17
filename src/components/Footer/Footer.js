@@ -8,16 +8,16 @@ const Footer = () => {
         <footer className="footer">
             <div className="container">
                 <div className="social-icons">
-                    <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">
+                    <a href="https://github.com/swe-robertkibet" target="_blank" rel="noopener noreferrer">
                         <FontAwesomeIcon icon={faGithub} />
                     </a>
-                    <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer">
+                    <a href="https://linkedin.com/in/robert-kibet" target="_blank" rel="noopener noreferrer">
                         <FontAwesomeIcon icon={faLinkedin} />
                     </a>
-                    <a href="https://wa.me/yourphonenumber" target="_blank" rel="noopener noreferrer">
+                    <a href="https://wa.me/+254714200683" target="_blank" rel="noopener noreferrer">
                         <FontAwesomeIcon icon={faWhatsapp} />
                     </a>
-                    <a href="https://instagram.com/yourusername" target="_blank" rel="noopener noreferrer">
+                    <a href="https://instagram.com/21stoic" target="_blank" rel="noopener noreferrer">
                         <FontAwesomeIcon icon={faInstagram} />
                     </a>
                 </div>
