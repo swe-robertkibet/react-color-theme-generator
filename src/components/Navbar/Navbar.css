@@ -1,7 +1,8 @@
 .navbar {
   background-color: #333;
-  color: white;
+  color: #ccc;
   padding: 1rem;
+  z-index: 1010;
 }
 
 .navbar-container {
@@ -36,15 +37,11 @@
 }
 
 body.no-scroll {
-  overflow: hidden; /* Prevents scrolling */
+  overflow: hidden;
 }
 
 @media (max-width: 768px) {
   .navbar-links {
-    display: none;
-  }
-
-  .navbar-links.active {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -55,17 +52,34 @@ body.no-scroll {
     right: 0;
     bottom: 0;
     background-color: #333;
+    color: #ccc;
     z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .navbar-links.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .navbar-links li {
+    margin: 1rem;
+    list-style: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
   }
 
   .navbar-links.active li {
-    margin: 1rem;
-    list-style: none; /* Remove default list styling */
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  .navbar-links.active a {
-    color: white; /* Ensure links are visible on the dark background */
-    text-decoration: none; /* Remove underline from links */
-    font-size: 1.5rem; /* Increase link size for better visibility */
+  .navbar-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
   }
 }

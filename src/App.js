@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import ColorInput from './components/ColorInput/ColorInput';
 import ColorPalette from './components/ColorPalette/ColorPalette';
+import About from './components/About/About';
+import Footer from './components/Footer/Footer';
 import { generateColorSchemes } from './utils/colorUtils';
 import './App.css';
 
@@ -27,8 +29,10 @@ function App() {
         />
         <ColorPalette schemes={colorSchemes} />
       </main>
+      <About />
+      <Footer />
     </div>
   );
 }
 
-export default App; 
+export default App;
