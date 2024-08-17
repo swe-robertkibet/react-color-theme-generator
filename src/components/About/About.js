@@ -3,7 +3,7 @@ import './About.css';
 
 const About = () => {
     return (
-        <section className="about">
+        <section id="about" className="about">
             <div className="container">
                 <h2>About Color Theme Generator</h2>
                 <p>
