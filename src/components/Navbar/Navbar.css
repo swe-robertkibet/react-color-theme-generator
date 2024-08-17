@@ -19,6 +19,17 @@
   font-size: 1rem;
   z-index: 1001;
 }
+.title1 {
+  color: #ef476f;
+}
+
+.title2 {
+  color: #ffd166;
+}
+
+.title3 {
+  color: #06d6a0;
+}
 
 .navbar-links {
   display: flex;

@@ -55,7 +55,7 @@ const Navbar = ({ title }) => {
     return (
         <nav className="navbar">
             <div className="navbar-container">
-                <h1 className="navbar-title">{title}</h1>
+                <h1 className="navbar-title"><span className='title1'>Color </span><span className='title2'>Theme</span>   <span className='title3'> Generator</span></h1>
                 <div className="navbar-menu">
                     <ul className={`navbar-links ${isOpen ? 'active' : ''}`}>
                         <li><a href="https://github.com/swe-robertkibet" target="_blank" rel="noopener noreferrer">GitHub</a></li>
