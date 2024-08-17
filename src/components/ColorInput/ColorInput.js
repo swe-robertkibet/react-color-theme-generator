@@ -62,6 +62,7 @@ const ColorInput = ({ value, onChange }) => {
         <div className="color-input-component">
             <h2>Color Theme Generator</h2>
             <p>Choose your primary color to create a beautiful theme for your project.</p>
+            <br></br>
             <label htmlFor="primary-color">Primary Color</label>
             <div className="color-input-container">
                 <input
